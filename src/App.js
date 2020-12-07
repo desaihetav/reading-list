@@ -12,34 +12,54 @@ allBooks.map((bookItem) => {
   });
 });
 
-console.log(genreList);
+genreList.sort();
+
+function sortObjArray(book1, book2) {
+  const name1 = book1.bookName.toLowerCase();
+  const name2 = book2.bookName.toLowerCase();
+
+  let comparison = 0;
+  if (name1 > name2) {
+    comparison = 1;
+  } else if (name1 < name2) {
+    comparison = -1;
+  }
+  return comparison;
+}
+
+allBooks.sort(sortObjArray);
 
 export default function App() {
   const [selectedGenre, setSelectedGenre] = useState("All Genres");
 
   return (
     <div className="App">
-      <h1>Hetav's Reading List</h1>
-      <blockquote>Outside of a dog, a book is a man's best friend.</blockquote>
-      <div className="genre-container">
-        {genreList.map((genreItem) => {
-          return genreItem === selectedGenre ? (
-            <p
-              className="genre-pill selected-genre-pill"
-              onClick={() => setSelectedGenre(genreItem)}
-            >
-              {genreItem}
-            </p>
-          ) : (
-            <p
-              className="genre-pill"
-              onClick={() => setSelectedGenre(genreItem)}
-            >
-              {genreItem}
-            </p>
-          );
-        })}
-      </div>
+      <header>
+        <h1>HBR – Hetav's Book Recommendations</h1>
+        <blockquote>
+          Outside of a dog, a book is a man's best&nbsp;friend.
+        </blockquote>
+        <div className="genre-container">
+          {genreList.map((genreItem) => {
+            return genreItem === selectedGenre ? (
+              <p
+                className="genre-pill selected-genre-pill"
+                onClick={() => setSelectedGenre(genreItem)}
+              >
+                {genreItem}
+              </p>
+            ) : (
+              <p
+                className="genre-pill"
+                onClick={() => setSelectedGenre(genreItem)}
+              >
+                {genreItem}
+              </p>
+            );
+          })}
+        </div>
+      </header>
+      <hr />
       {allBooks.map((item) => {
         if (selectedGenre === "All Genres") {
           return (
@@ -48,7 +68,7 @@ export default function App() {
               <div className="book-metacontent">
                 <p className="book-name">{item.bookName}</p>
                 <p className="book-author">{item.author}</p>
-                <p className="book-genre">{item.genre.join(" | ")}</p>
+                <p className="book-genre">{item.genre.sort().join(" | ")}</p>
               </div>
             </div>
           );
